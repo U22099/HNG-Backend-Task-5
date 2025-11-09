@@ -66,3 +66,43 @@ export async function getUserContact(userId: string) {
     push_token_last_updated: user.pushTokenLastUpdated,
   };
 }
+
+export async function updateUser(userId: string, data: any) {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      firstName: data.firstName || undefined,
+      lastName: data.lastName || undefined,
+      phoneNumber: data.phoneNumber || undefined,
+      emailVerified: data.emailVerified || undefined,
+      phoneVerified: data.phoneVerified || undefined,
+      updatedAt: new Date(),
+    },
+    select: {
+      id: true,
+      updatedAt: true,
+    }
+  });
+  
+  if(!updatedUser) throw new Error("User not found");
+
+  return {
+    id: updatedUser.id,
+    updated_at: updatedUser.updatedAt,
+  };
+}
+
+export async function updateUserContact(userId: string, data: any) {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      prefersEmail: data.prefersEmail || undefined,
+      prefersPush: data.prefersPush || undefined,
+      updatedAt: new Date(),
+    }
+  });
+  
+  if(!updatedUser) throw new Error("User not found");
+
+  return updatedUser ? true : false;
+}
