@@ -4,7 +4,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "npm run build && npm run start",
-    "updatedb": "npx prisma db push && npx prisma generate",
+    "updatedb": "npx prisma db push",
+    "generate": "npx prisma generate",
     "build": "tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
