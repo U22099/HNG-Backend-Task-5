@@ -17,7 +17,7 @@ export async function getUser(userId: string) {
       updatedAt: true,
     },
   });
-  
+
   if (!user) throw new Error("User not found");
 
   return {
@@ -62,6 +62,15 @@ export async function getUserContact(userId: string) {
 }
 
 export async function updateUser(userId: string, data: any) {
+  if (
+    !data.firstName &&
+    !data.lastName &&
+    !data.phoneNumber &&
+    !data.emailVerified &&
+    !data.phoneVerified
+  ) {
+    throw new Error("No data provided for update");
+  }
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
@@ -75,10 +84,10 @@ export async function updateUser(userId: string, data: any) {
     select: {
       id: true,
       updatedAt: true,
-    }
+    },
   });
-  
-  if(!updatedUser) throw new Error("User not found");
+
+  if (!updatedUser) throw new Error("User not found");
 
   return {
     id: updatedUser.id,
@@ -87,16 +96,53 @@ export async function updateUser(userId: string, data: any) {
 }
 
 export async function updateUserContact(userId: string, data: any) {
+  if (!data.prefers_email && !data.prefers_push) {
+    throw new Error("No data provided for update");
+  }
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      prefersEmail: data.prefersEmail || undefined,
-      prefersPush: data.prefersPush || undefined,
+      prefersEmail: data.prefers_email || undefined,
+      prefersPush: data.prefers_push || undefined,
       updatedAt: new Date(),
-    }
+    },
+    select: {
+      id: true,
+      prefersEmail: true,
+      prefersPush: true,
+    },
   });
-  
-  if(!updatedUser) throw new Error("User not found");
 
-  return updatedUser ? true : false;
+  if (!updatedUser) throw new Error("User not found");
+
+  return {
+    id: updatedUser.id,
+    prefers_email: updatedUser.prefersEmail,
+    prefers_push: updatedUser.prefersPush,
+  };
+}
+
+export async function updateUserPushToken(userId: string, data: any) {
+  if (!data.push_token) throw new Error("Push token is required");
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      pushToken: data.push_token,
+      pushTokenLastUpdated: new Date(),
+    },
+    select: {
+      id: true,
+      pushToken: true,
+      pushTokenLastUpdated: true,
+    },
+  });
+
+  if (!updatedUser) throw new Error("User not found");
+
+  return {
+    id: updatedUser.id,
+    push_token: updatedUser.pushToken,
+    push_token_last_updated: updatedUser.pushTokenLastUpdated,
+  };
 }
