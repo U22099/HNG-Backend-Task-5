@@ -7,7 +7,7 @@ export async function refreshToken(fastify: FastifyInstance, body: any) {
   if (payload.type !== 'refresh') throw new Error("Unauthorised");
 
   const user = await prisma.user.findUnique({ where: { id: payload.sub } });
-  if (!user) throw new Error("Unauthorised");
+  if (!user || user.refreshToken !== token) throw new Error("Unauthorised");
 
   const access = fastify.jwt.sign(
     { sub: user.id, user_id: user.id, email: user.email },

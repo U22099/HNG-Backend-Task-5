@@ -1,3 +1,4 @@
+import { FastifyInstance, FastifyRequest } from "fastify";
 import { prisma } from "../prisma";
 import bcrypt from "bcrypt";
 
@@ -27,7 +28,7 @@ export async function register(body: any) {
   }
 }
 
-export async function login(fastify: any, body: any) {
+export async function login(fastify: FastifyInstance, body: any) {
   try {
     const { email, password } = body;
 
@@ -65,6 +66,14 @@ export async function login(fastify: any, body: any) {
       { expiresIn: '1h' }
     );
 
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        accessToken: access_token,
+        refreshToken: refresh_token
+      }
+    })
+
     return {
       access_token,
       refresh_token,
@@ -75,5 +84,47 @@ export async function login(fastify: any, body: any) {
   } catch (error) {
     console.error("Error in login:", error);
     throw new Error("Login failed");
+  }
+}
+
+export async function logout(fastify: FastifyInstance, headers: FastifyRequest['headers']) {
+  try {
+    const authHeader = headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new Error('Missing or invalid Authorization header');
+    }
+    const token = authHeader.split(' ')[1];
+    const payload = fastify.jwt.verify(token || "") as any;
+    if (!payload || !payload.exp) {
+      throw new Error('Invalid token payload on request.user');
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        accessToken: token!,
+      },
+    });
+
+    if(!user) throw new Error('User not found for provided token');
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        accessToken: null,
+        refreshToken: null
+      }
+    });
+
+    return {
+      success: true,
+      message: 'Logged out successfully',
+    };
+  } catch (error: any) {
+    console.error('Error in logout:', error);
+    if (error.code === 'P2002') {
+      return { success: true, message: 'Already logged out' };
+    }
+    
+    throw new Error('Logout failed');
   }
 }

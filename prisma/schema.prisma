@@ -17,6 +17,8 @@ model User {
   emailVerified       Boolean  @default(false)
   isActive            Boolean  @default(true)
   pushToken           String?
+  accessToken         String?
+  refreshToken        String?
   prefersEmail        Boolean  @default(true)
   prefersPush         Boolean  @default(true)
   prefersSms          Boolean  @default(false)
