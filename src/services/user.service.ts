@@ -44,9 +44,6 @@ export async function getUserContact(userId: string) {
       pushToken: true,
       prefersEmail: true,
       prefersPush: true,
-      isActive: true,
-      emailVerified: true,
-      phoneVerified: true,
       pushTokenLastUpdated: true,
     },
   });
@@ -60,9 +57,6 @@ export async function getUserContact(userId: string) {
     push_token: user.pushToken,
     prefers_email: user.prefersEmail,
     prefers_push: user.prefersPush,
-    is_active: user.isActive,
-    email_verified: user.emailVerified,
-    phone_verified: user.phoneVerified,
     push_token_last_updated: user.pushTokenLastUpdated,
   };
 }
