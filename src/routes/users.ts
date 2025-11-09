@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { getUser, getUserContact, updateUser, updateUserContact } from "../services/user.service";
+import { getUser, getUserContact, updateUser, updateUserContact, updateUserPushToken } from "../services/user.service";
 import { authorize } from "../utils/authorize";
 
 export function userRoutes(app: FastifyInstance) {
@@ -74,7 +74,28 @@ export function userRoutes(app: FastifyInstance) {
     const data = await updateUserContact(user_id, req.body);
     reply.send({
       success: true,
-      message: "Profile updated successfully",
+      message: "Preference updated successfully",
+      data,
+    });
+  });
+
+  app.put("/v1/users/:user_id/push_token", async (req, reply) => {
+    const token = await authorize(req.headers);
+
+    const { user_id } = req.params as any;
+
+    try {
+      const payload: any = app.jwt.verify(token);
+      if (payload.sub !== user_id)
+        return reply.code(403).send({ success: false, error: "Forbidden" });
+    } catch {
+      return reply.code(401).send({ success: false, error: "Invalid token" });
+    }
+
+    const data = await updateUserPushToken(user_id, req.body);
+    reply.send({
+      success: true,
+      message: "Push token updated successfully",
       data,
     });
   });
