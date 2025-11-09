@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(uuid())
+  email               String   @unique
+  passwordHash        String
+  firstName           String?
+  lastName            String?
+  phoneNumber         String?
+  emailVerified       Boolean  @default(false)
+  isActive            Boolean  @default(true)
+  pushToken           String?
+  prefersEmail        Boolean  @default(true)
+  prefersPush         Boolean  @default(true)
+  prefersSms          Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}

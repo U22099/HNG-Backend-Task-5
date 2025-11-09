@@ -1,13 +1,12 @@
 # Ignore node_modules
 /node_modules/
 
-/prisma
 /src/plugins/
 /src/routes/
 /src/services/
 /src/types/
 /src/utils/
-/src/prisma.ts
+/src/server.ts
 .env
 
 # Ignore log files
