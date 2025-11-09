@@ -1,3 +1,4 @@
+import { FastifyReply } from "fastify/types/reply";
 import { prisma } from "../prisma";
 
 export async function getUser(userId: string) {
