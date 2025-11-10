@@ -35,10 +35,12 @@ async function main() {
     prefix: "/",
   });
 
-  authRoutes(app);
-  userRoutes(app);
-
-  app.get("/health", () => ({ status: "ok" }));
+  await app.register(async function (fastify) {
+    authRoutes(fastify);
+    userRoutes(fastify);
+    app.get("/health", () => ({ status: "ok" }));
+  }, { prefix: "/api" });
+  
 
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
   const host = "0.0.0.0";

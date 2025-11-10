@@ -3,649 +3,542 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Service API Documentation</title>
+    <title>API Documentation</title>
     <style>
       :root {
+        --bg-color: #f9f9f9;
+        --text-color: #333;
+        --header-color: #2c3e50;
+        --subheader-color: #34495e;
+        --endpoint-bg: #fff;
+        --border-color: #ddd;
+        --pre-bg: #f4f4f4;
+        --code-bg: #f4f4f4;
+        --note-bg: #e7f3fe;
+        --note-border: #2196f3;
+        --link-color: #3498db;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+      }
+
+      body.dark-mode {
         --bg-color: #1e1e1e;
-        --text-color: #d4d4d4;
-        --primary-color: #007acc; /* VS Code Blue */
-        --secondary-color: #569cd6; /* Light Blue for code */
-        --accent-color: #ce9178; /* Tan for strings/values */
-        --border-color: #333333;
-        --success-color: #6a9955; /* Green for success */
-        --error-color: #f44747; /* Red for errors */
-        --code-bg: #252526;
-        --padding-unit: 1rem;
+        --text-color: #ddd;
+        --header-color: #eee;
+        --subheader-color: #ccc;
+        --endpoint-bg: #2c2c2c;
+        --border-color: #444;
+        --pre-bg: #333;
+        --code-bg: #333;
+        --note-bg: #2a3d4f;
+        --note-border: #4a90e2;
+        --link-color: #5dade2;
+        --shadow-color: rgba(255, 255, 255, 0.1);
       }
 
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
         line-height: 1.6;
-        margin: 0;
-        padding: 0;
-      }
-
-      .container {
+        color: var(--text-color);
         max-width: 1200px;
-        margin: auto;
-        padding: 2rem;
-        display: grid;
-        grid-template-columns: 250px 1fr;
-        gap: 2rem;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: var(--bg-color);
+        transition: background-color 0.3s, color 0.3s;
       }
 
       header {
-        background-color: #252526;
-        padding: 1rem 2rem;
-        border-bottom: 1px solid var(--border-color);
-        grid-column: 1 / -1;
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 2px solid var(--border-color);
       }
 
-      header h1 {
-        margin: 0;
-        color: var(--primary-color);
-        font-weight: 300;
-      }
-
-      /* --- Sidebar Navigation --- */
-      nav {
-        padding-top: var(--padding-unit);
-        position: sticky;
-        top: 0;
-        height: fit-content;
-      }
-
-      nav h3 {
-        color: var(--secondary-color);
-        margin-top: 0;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
-      }
-
-      nav ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      nav a {
-        display: block;
-        padding: 0.5rem 0;
-        color: var(--text-color);
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: color 0.2s;
-      }
-
-      nav a:hover {
-        color: var(--primary-color);
-      }
-
-      /* --- Content Area --- */
-      main {
-        padding-top: var(--padding-unit);
-      }
-
+      h1,
       h2,
-      h3,
-      h4 {
-        color: var(--secondary-color);
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
-        margin-top: 2rem;
+      h3 {
+        color: var(--header-color);
       }
 
       h2 {
-        font-size: 1.8rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
       }
 
       h3 {
-        font-size: 1.4rem;
+        margin-top: 40px;
+        color: var(--subheader-color);
       }
 
-      p {
-        margin-bottom: 1rem;
+      .endpoint {
+        background-color: var(--endpoint-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px var(--shadow-color);
       }
 
-      /* --- Code Blocks & Inline Code --- */
-      code {
-        font-family: "Consolas", "Courier New", monospace;
-        background-color: var(--code-bg);
-        padding: 0.2em 0.4em;
-        border-radius: 3px;
-        font-size: 0.9em;
-        color: var(--text-color);
-        white-space: pre-wrap;
+      .method {
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #fff;
+      }
+
+      .get {
+        background-color: #27ae60;
+      }
+      .post {
+        background-color: #3498db;
+      }
+      .put {
+        background-color: #f39c12;
       }
 
       pre {
-        background-color: var(--code-bg);
-        padding: var(--padding-unit);
-        border-radius: 5px;
-        overflow-x: auto;
-        border-left: 3px solid var(--primary-color);
-      }
-
-      /* --- Endpoint Styling --- */
-      .endpoint {
+        background-color: var(--pre-bg);
         border: 1px solid var(--border-color);
-        border-radius: 5px;
-        margin-bottom: 2rem;
-        padding: var(--padding-unit);
-        background-color: #252526;
+        border-radius: 4px;
+        padding: 15px;
+        overflow-x: auto;
+        font-family: "Courier New", Courier, monospace;
+        color: var(--text-color);
       }
 
-      .endpoint h4 {
-        margin-top: 0;
-        padding-bottom: 0;
-        border: none;
-        font-size: 1.2rem;
+      code {
+        background-color: var(--code-bg);
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: var(--text-color);
+      }
+
+      ul.errors {
+        list-style-type: disc;
+        padding-left: 20px;
+      }
+
+      .note {
+        background-color: var(--note-bg);
+        border-left: 6px solid var(--note-border);
+        padding: 10px;
+        margin: 10px 0;
+      }
+
+      nav {
+        margin: 20px 0;
+        text-align: center;
         display: flex;
+        justify-content: center;
         align-items: center;
       }
 
-      .endpoint-method {
-        padding: 0.3rem 0.6rem;
-        border-radius: 3px;
-        font-weight: bold;
-        color: white;
-        margin-right: 1rem;
-        text-transform: uppercase;
-        font-size: 0.9rem;
+      nav a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: var(--link-color);
       }
 
-      .post-method {
-        background-color: #6a9955;
-      } /* Success Green */
-      .get-method {
-        background-color: #569cd6;
-      } /* Info Blue */
-      .put-method {
-        background-color: #ce9178;
-      } /* Warning Tan */
-
-      .endpoint-url {
-        color: var(--text-color);
-        font-weight: normal;
+      nav a:hover {
+        text-decoration: underline;
       }
 
-      .section-header {
-        font-weight: bold;
-        color: var(--secondary-color);
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        border-left: 2px solid var(--primary-color);
-        padding-left: 10px;
+      #dark-mode-toggle {
+        margin-left: 20px;
+        padding: 8px 16px;
+        background-color: var(--endpoint-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
       }
 
-      .req-headers,
-      .req-params,
-      .req-body,
-      .res-body,
-      .errors {
-        margin-bottom: 1rem;
-      }
-
-      .error-box {
-        background-color: #3b2c2c;
-        border: 1px solid var(--error-color);
-        padding: 0.5rem;
-        border-radius: 3px;
-        color: var(--error-color);
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .container {
-          grid-template-columns: 1fr;
-          padding: 1rem;
-        }
-        nav {
-          display: none; /* Hide sidebar on small screens for simplicity */
-        }
+      #dark-mode-toggle:hover {
+        background-color: var(--pre-bg);
       }
     </style>
   </head>
   <body>
     <header>
-      <h1>User Service API</h1>
-      <p>A high-performance user management and authentication service.</p>
+      <h1>API Documentation</h1>
     </header>
 
-    <div class="container">
-      <nav>
-        <h3>Navigation</h3>
-        <ul>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#getting-started">Getting Started</a></li>
-          <li><a href="#env-vars">Environment Variables</a></li>
-        </ul>
-        <h3>Endpoints</h3>
-        <ul>
-          <li><a href="#post-register">POST /v1/auth/register</a></li>
-          <li><a href="#post-login">POST /v1/auth/login</a></li>
-          <li><a href="#post-refresh">POST /v1/auth/refresh</a></li>
-          <li><a href="#get-user">GET /v1/users/:user_id</a></li>
-          <li><a href="#get-contact">GET /v1/users/:user_id/contact</a></li>
-          <li><a href="#put-user">PUT /v1/users/:user_id</a></li>
-          <li><a href="#put-contact">PUT /v1/users/:user_id/contact</a></li>
-          <li><a href="#put-push">PUT /v1/users/:user_id/push_token</a></li>
-          <li><a href="#get-health">GET /health</a></li>
-        </ul>
-      </nav>
+    <nav>
+      <a href="#base-url">Base URL</a>
+      <a href="#health-check">Health Check</a>
+      <a href="#authentication">Authentication</a>
+      <a href="#user-management">User Management</a>
+      <button id="dark-mode-toggle">Toggle Dark Mode</button>
+    </nav>
 
-      <main>
-        <h2 id="overview">Overview</h2>
+    <section id="base-url">
+      <h2>Base URL</h2>
+      <p>All API endpoints are prefixed with <code>/api</code>.</p>
+      <pre><code>http://localhost:3001/api</code></pre>
+    </section>
+
+    <section id="health-check">
+      <h2>Health Check</h2>
+      <div class="endpoint">
+        <h3><span class="method get">GET</span> /health</h3>
         <p>
-          This project is a high-performance user management and authentication
-          API built with **TypeScript**. It leverages the **Fastify** framework
-          for speed and the **Prisma** ORM for robust database interactions with
-          a PostgreSQL database.
+          A simple health check endpoint to verify that the service is running.
         </p>
+        <h4>Response:</h4>
+        <pre><code>{
+  "status": "ok"
+}</code></pre>
+      </div>
+    </section>
 
-        <h2 id="features">Features</h2>
-        <ul>
-          <li>
-            **Fastify**: Provides a high-performance, low-overhead web framework
-            for building efficient APIs.
-          </li>
-          <li>
-            **Prisma**: Serves as a next-generation ORM for type-safe database
-            access and management.
-          </li>
-          <li>
-            **TypeScript**: Ensures code quality and scalability with static
-            typing.
-          </li>
-          <li>
-            **JWT Authentication**: Implements secure, token-based
-            authentication using JSON Web Tokens for protected routes.
-          </li>
-          <li>
-            **Password Hashing**: Uses <code>bcrypt</code> to securely hash and
-            store user passwords.
-          </li>
-        </ul>
+    <section id="endpoints">
+      <h2>Endpoints</h2>
 
-        <h2 id="getting-started">Getting Started</h2>
+      <section id="authentication">
+        <h2>Authentication</h2>
 
-        <h3 id="installation">Installation</h3>
-        <ol>
-          <li>
-            **Clone the repository**
-            <pre><code>git clone https://github.com/U22099/HNG-Backend-Task-5.git
-cd HNG-Backend-Task-5</code></pre>
-          </li>
-          <li>
-            **Install dependencies**
-            <pre><code>npm install</code></pre>
-          </li>
-          <li>
-            **Set up environment variables**
-            <p>
-              Create a <code>.env</code> file and update the variables with your
-              configuration.
-            </p>
-            <pre><code>cp .env.example .env</code></pre>
-          </li>
-          <li>
-            **Sync the database schema**
-            <p>
-              This command pushes the Prisma schema to your PostgreSQL database.
-            </p>
-            <pre><code>npm run updatedb</code></pre>
-          </li>
-          <li>
-            **Run the development server**
-            <pre><code>npm run dev</code></pre>
-            <p>
-              The server will be running at <code>http://localhost:3001</code>.
-            </p>
-          </li>
-        </ol>
-
-        <h3 id="env-vars">Environment Variables</h3>
-        <p>The following environment variables are required:</p>
-        <ul>
-          <li>
-            <code>DATABASE_URL</code>: The connection string for your PostgreSQL
-            database.
-          </li>
-          <li>
-            <code>JWT_SECRET</code>: A secret key for signing JWT access and
-            refresh tokens.
-          </li>
-          <li>
-            <code>SERVICE_JWT_SECRET</code>: A secret key for internal
-            service-to-service communication.
-          </li>
-        </ul>
-
-        <h2 id="api-documentation">API Documentation</h2>
-
-        <p class="section-header">
-          Base URL: <code>http://localhost:3001</code>
-        </p>
-
-        <div class="endpoint" id="post-register">
-          <h4>
-            <span class="endpoint-method post-method">POST</span
-            ><span class="endpoint-url">/v1/auth/register</span>
-          </h4>
+        <div class="endpoint">
+          <h3><span class="method post">POST</span> /v1/auth/register</h3>
           <p>Registers a new user in the system.</p>
-
-          <p class="section-header">Request Body:</p>
+          <h4>Request:</h4>
           <pre><code>{
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com",
-    "password": "strongPassword123",
-    "phone_number": "1234567890"
+  "email": "jane.doe@example.com",
+  "password": "SecurePassword123!",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "phone_number": "1234567890"
 }</code></pre>
-          <p>
-            <em
-              >Required fields: <code>first_name</code>, <code>last_name</code>,
-              <code>email</code>, <code>password</code></em
-            >
-          </p>
-
-          <p class="section-header">Response (200 OK):</p>
+          <h4>Response (201 Created):</h4>
           <pre><code>{
-    "success": true,
-    "message": "User registered successfully",
-    "data": {
-        "user_id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "email": "john.doe@example.com",
-        "created_at": "2023-10-27T10:00:00.000Z"
-    }
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
+    "email": "jane.doe@example.com",
+    "created_at": "2023-10-27T10:00:00.000Z"
+  }
 }</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **500 Internal Server Error**: If required fields are missing or
-            registration fails for other reasons.
-          </div>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>400 Bad Request</code>: Missing required fields
+              (<code>email</code>, <code>password</code>,
+              <code>first_name</code>, <code>last_name</code>).
+            </li>
+            <li>
+              <code>400 Bad Request</code>: Registration failed (e.g., email
+              already exists).
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred on the server.
+            </li>
+          </ul>
         </div>
 
-        <div class="endpoint" id="post-login">
-          <h4>
-            <span class="endpoint-method post-method">POST</span
-            ><span class="endpoint-url">/v1/auth/login</span>
-          </h4>
-          <p>Authenticates a user and returns access and refresh tokens.</p>
-
-          <p class="section-header">Request Body:</p>
+        <div class="endpoint">
+          <h3><span class="method post">POST</span> /v1/auth/login</h3>
+          <p>Authenticates a user and returns JWT access and refresh tokens.</p>
+          <h4>Request:</h4>
           <pre><code>{
-    "email": "john.doe@example.com",
-    "password": "strongPassword123"
+  "email": "jane.doe@example.com",
+  "password": "SecurePassword123!"
 }</code></pre>
-
-          <p class="section-header">Response (200 OK):</p>
+          <h4>Response (200 OK):</h4>
           <pre><code>{
-    "success": true,
-    "message": "Login successful",
-    "data": {
-        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "expiresIn": 3600,
-        "token_type": "Bearer",
-        "user_id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a"
-    }
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": 3600,
+    "token_type": "Bearer",
+    "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f"
+  }
 }</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **500 Internal Server Error**: If credentials are invalid or
-            required fields are missing.
-          </div>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>400 Bad Request</code>: Missing <code>email</code> or
+              <code>password</code>.
+            </li>
+            <li><code>400 Bad Request</code>: Invalid credentials.</li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred on the server.
+            </li>
+          </ul>
         </div>
 
-        <div class="endpoint" id="post-refresh">
-          <h4>
-            <span class="endpoint-method post-method">POST</span
-            ><span class="endpoint-url">/v1/auth/refresh</span>
-          </h4>
+        <div class="endpoint">
+          <h3><span class="method post">POST</span> /v1/auth/refresh</h3>
           <p>Generates a new access token using a valid refresh token.</p>
-
-          <p class="section-header">Request Body:</p>
+          <h4>Request:</h4>
           <pre><code>{
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }</code></pre>
-
-          <p class="section-header">Response (200 OK):</p>
+          <h4>Response (200 OK):</h4>
           <pre><code>{
-    "success": true,
-    "message": "Login successful",
-    "data": {
-        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "expires_in": 3600
-    }
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expires_in": 3600
+  }
 }</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **500 Internal Server Error**: If the refresh token is invalid or
-            expired.
-          </div>
-        </div>
-
-        <div class="endpoint" id="get-user">
-          <h4>
-            <span class="endpoint-method get-method">GET</span
-            ><span class="endpoint-url">/v1/users/:user_id</span>
-          </h4>
-          <p>
-            Retrieves the profile information for a specific user. **Protected
-            Route**.
-          </p>
-
-          <p class="section-header">Request Headers:</p>
-          <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
-
-          <p class="section-header">URL Params:</p>
-          <ul>
-            <li><code>user_id</code> (string)</li>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>401 Unauthorized</code>: The provided refresh token is
+              invalid, expired, or not of type <code>refresh</code>.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred on the server.
+            </li>
           </ul>
-
-          <p class="section-header">Response (200 OK):</p>
-          <pre><code>{
-    "success": true,
-    "data": {
-        "user_id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "first_name": "John",
-        "last_name": "Doe",
-        "email": "john.doe@example.com",
-        "role": "user",
-        "phone_number": "1234567890",
-        "is_active": true,
-        "email_verified": false,
-        "phone_verified": false,
-        "created_at": "2023-10-27T10:00:00.000Z",
-        "updated_at": "2023-10-27T10:00:00.000Z"
-    }
-}</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **401 Unauthorized**: If the token is missing, invalid, or
-            expired.<br />
-            **403 Forbidden**: If the authenticated user is accessing another
-            user's data.<br />
-            **404 Not Found**: If the user does not exist.
-          </div>
         </div>
+      </section>
 
-        <div class="endpoint" id="get-contact">
-          <h4>
-            <span class="endpoint-method get-method">GET</span
-            ><span class="endpoint-url">/v1/users/:user_id/contact</span>
-          </h4>
+      <section id="user-management">
+        <h2>User Management</h2>
+        <div class="note">
           <p>
-            Retrieves the contact preferences and details for a specific user.
-            **Protected Route**.
+            <strong>Note:</strong> All user management endpoints require an
+            <code>Authorization: Bearer &lt;access_token&gt;</code> header.
           </p>
+        </div>
 
-          <p class="section-header">Request Headers:</p>
-          <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
-
-          <p class="section-header">URL Params:</p>
-          <ul>
-            <li><code>user_id</code> (string)</li>
+        <div class="endpoint">
+          <h3><span class="method get">GET</span> /v1/users/:user_id</h3>
+          <p>Retrieves a user's public profile information.</p>
+          <p>
+            <strong>Request:</strong> No request body required. URL parameter
+            <code>user_id</code> must be the ID of the user to retrieve.
+          </p>
+          <h4>Response (200 OK):</h4>
+          <pre><code>{
+  "success": true,
+  "data": {
+    "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "jane.doe@example.com",
+    "role": "user",
+    "phone_number": "1234567890",
+    "is_active": true,
+    "email_verified": false,
+    "phone_verified": false,
+    "created_at": "2023-10-27T10:00:00.000Z",
+    "updated_at": "2023-10-27T10:00:00.000Z"
+  }
+}</code></pre>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>401 Unauthorized</code>: Invalid or missing access token.
+            </li>
+            <li>
+              <code>403 Forbidden</code>: The authenticated user is not
+              authorized to access this resource.
+            </li>
+            <li>
+              <code>404 Not Found</code>: User with the specified
+              <code>user_id</code> does not exist.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred.
+            </li>
           </ul>
-
-          <p class="section-header">Response (200 OK):</p>
-          <pre><code>{
-    "success": true,
-    "data": {
-        "user_id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "email": "john.doe@example.com",
-        "phone_number": "1234567890",
-        "push_token": null,
-        "prefers_email": true,
-        "prefers_push": true,
-        "push_token_last_updated": "2023-10-27T10:00:00.000Z"
-    }
-}</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **401 Unauthorized**: If the token is missing, invalid, or
-            expired.<br />
-            **403 Forbidden**: If the authenticated user is accessing another
-            user's data.<br />
-            **404 Not Found**: If the user does not exist.
-          </div>
         </div>
 
-        <div class="endpoint" id="put-user">
-          <h4>
-            <span class="endpoint-method put-method">PUT</span
-            ><span class="endpoint-url">/v1/users/:user_id</span>
-          </h4>
-          <p>Updates a user's profile information. **Protected Route**.</p>
-
-          <p class="section-header">Request Headers:</p>
-          <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
-
-          <p class="section-header">Request Body:</p>
+        <div class="endpoint">
+          <h3><span class="method put">PUT</span> /v1/users/:user_id</h3>
+          <p>Updates a user's profile information.</p>
+          <h4>Request:</h4>
           <pre><code>{
-    "firstName": "Jonathan",
-    "lastName": "Doer",
-    "phoneNumber": "0987654321"
+  "firstName": "Janet",
+  "lastName": "Doer",
+  "phoneNumber": "0987654321"
 }</code></pre>
-          <p><em>All fields are optional.</em></p>
-
-          <p class="section-header">Response (200 OK):</p>
+          <h4>Response (200 OK):</h4>
           <pre><code>{
-    "success": true,
-    "message": "Profile updated successfully",
-    "data": {
-        "id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "updated_at": "2023-10-27T11:00:00.000Z"
-    }
+  "success": true,
+  "message": "Profile updated successfully",
+  "data": {
+    "id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
+    "updated_at": "2023-10-27T11:00:00.000Z"
+  }
 }</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **400 Bad Request**: If no data is provided.<br />
-            **401 Unauthorized** | **403 Forbidden** | **404 Not Found**
-            (Standard Auth/User Errors).
-          </div>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li><code>400 Bad Request</code>: No data provided for update.</li>
+            <li>
+              <code>401 Unauthorized</code>: Invalid or missing access token.
+            </li>
+            <li>
+              <code>403 Forbidden</code>: The authenticated user is not
+              authorized to modify this resource.
+            </li>
+            <li>
+              <code>404 Not Found</code>: User with the specified
+              <code>user_id</code> does not exist.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred.
+            </li>
+          </ul>
         </div>
 
-        <div class="endpoint" id="put-contact">
-          <h4>
-            <span class="endpoint-method put-method">PUT</span
-            ><span class="endpoint-url">/v1/users/:user_id/contact</span>
-          </h4>
-          <p>Updates a user's contact preferences. **Protected Route**.</p>
-
-          <p class="section-header">Request Headers:</p>
-          <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
-
-          <p class="section-header">Request Body:</p>
+        <div class="endpoint">
+          <h3>
+            <span class="method get">GET</span> /v1/users/:user_id/contact
+          </h3>
+          <p>
+            Retrieves a user's contact details and notification preferences.
+          </p>
+          <p>
+            <strong>Request:</strong> No request body required. URL parameter
+            <code>user_id</code> must be the ID of the user.
+          </p>
+          <h4>Response (200 OK):</h4>
           <pre><code>{
+  "success": true,
+  "data": {
+    "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
+    "email": "jane.doe@example.com",
+    "phone_number": "1234567890",
+    "push_token": null,
+    "prefers_email": true,
+    "prefers_push": true,
+    "push_token_last_updated": "2023-10-27T10:00:00.000Z"
+  }
+}</code></pre>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>401 Unauthorized</code>: Invalid or missing access token.
+            </li>
+            <li>
+              <code>403 Forbidden</code>: The authenticated user is not
+              authorized to access this resource.
+            </li>
+            <li>
+              <code>404 Not Found</code>: User with the specified
+              <code>user_id</code> does not exist.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred.
+            </li>
+          </ul>
+        </div>
+
+        <div class="endpoint">
+          <h3>
+            <span class="method put">PUT</span> /v1/users/:user_id/contact
+          </h3>
+          <p>Updates a user's notification preferences.</p>
+          <h4>Request:</h4>
+          <pre><code>{
+  "prefers_email": false,
+  "prefers_push": true
+}</code></pre>
+          <h4>Response (200 OK):</h4>
+          <pre><code>{
+  "success": true,
+  "message": "Preference updated successfully",
+  "data": {
+    "id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
     "prefers_email": false,
     "prefers_push": true
+  }
 }</code></pre>
-          <p><em>All fields are optional.</em></p>
-
-          <p class="section-header">Response (200 OK):</p>
-          <pre><code>{
-    "success": true,
-    "message": "Preference updated successfully",
-    "data": {
-        "id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "prefers_email": false,
-        "prefers_push": true
-    }
-}</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **400 Bad Request**: If no data is provided.<br />
-            **401 Unauthorized** | **403 Forbidden** | **404 Not Found**
-            (Standard Auth/User Errors).
-          </div>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>400 Bad Request</code>: No preference data provided for
+              update.
+            </li>
+            <li>
+              <code>401 Unauthorized</code>: Invalid or missing access token.
+            </li>
+            <li>
+              <code>403 Forbidden</code>: The authenticated user is not
+              authorized to modify this resource.
+            </li>
+            <li>
+              <code>404 Not Found</code>: User with the specified
+              <code>user_id</code> does not exist.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred.
+            </li>
+          </ul>
         </div>
 
-        <div class="endpoint" id="put-push">
-          <h4>
-            <span class="endpoint-method put-method">PUT</span
-            ><span class="endpoint-url">/v1/users/:user_id/push_token</span>
-          </h4>
-          <p>Updates a user's push notification token. **Protected Route**.</p>
-
-          <p class="section-header">Request Headers:</p>
-          <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
-
-          <p class="section-header">Request Body:</p>
+        <div class="endpoint">
+          <h3>
+            <span class="method put">PUT</span> /v1/users/:user_id/push_token
+          </h3>
+          <p>Updates a user's push notification token for mobile devices.</p>
+          <h4>Request:</h4>
           <pre><code>{
-    "push_token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]"
+  "push_token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]"
 }</code></pre>
-
-          <p class="section-header">Response (200 OK):</p>
+          <h4>Response (200 OK):</h4>
           <pre><code>{
-    "success": true,
-    "message": "Push token updated successfully",
-    "data": {
-        "id": "c1f7b5c0-1b2c-4d3e-8f9a-0b1c2d3e4f5a",
-        "push_token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]",
-        "push_token_last_updated": "2023-10-27T12:00:00.000Z"
-    }
+  "success": true,
+  "message": "Push token updated successfully",
+  "data": {
+    "id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f",
+    "push_token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]",
+    "push_token_last_updated": "2023-10-27T12:00:00.000Z"
+  }
 }</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <div class="error-box">
-            **400 Bad Request**: If <code>push_token</code> is not provided.<br />
-            **401 Unauthorized** | **403 Forbidden** | **404 Not Found**
-            (Standard Auth/User Errors).
-          </div>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>400 Bad Request</code>: <code>push_token</code> is required
+              in the request body.
+            </li>
+            <li>
+              <code>401 Unauthorized</code>: Invalid or missing access token.
+            </li>
+            <li>
+              <code>403 Forbidden</code>: The authenticated user is not
+              authorized to modify this resource.
+            </li>
+            <li>
+              <code>404 Not Found</code>: User with the specified
+              <code>user_id</code> does not exist.
+            </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred.
+            </li>
+          </ul>
         </div>
+      </section>
+    </section>
 
-        <div class="endpoint" id="get-health">
-          <h4>
-            <span class="endpoint-method get-method">GET</span
-            ><span class="endpoint-url">/health</span>
-          </h4>
-          <p>A health check endpoint to verify that the service is running.</p>
+    <script>
+      const toggleButton = document.getElementById("dark-mode-toggle");
+      const body = document.body;
 
-          <p class="section-header">Request:</p>
-          <p>None</p>
+      if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+      }
 
-          <p class="section-header">Response (200 OK):</p>
-          <pre><code>{
-    "status": "ok"
-}</code></pre>
-
-          <p class="section-header">Errors:</p>
-          <p>None</p>
-        </div>
-      </main>
-    </div>
+      toggleButton.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+        if (body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+        } else {
+          localStorage.setItem("theme", "light");
+        }
+      });
+    </script>
   </body>
 </html>
