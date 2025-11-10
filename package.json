@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "npm run build && npm run start",
+    "dev": "npm run build-dev && npm run start",
     "updatedb": "npx prisma db push",
     "generate": "npx prisma generate",
+    "build-dev": "tsc",
     "build": "npx prisma generate && tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",

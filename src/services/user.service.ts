@@ -97,14 +97,14 @@ export async function updateUser(userId: string, data: any) {
 }
 
 export async function updateUserContact(userId: string, data: any) {
-  if (!data.prefers_email && !data.prefers_push) {
+  if (data.prefers_email === undefined && data.prefers_push === undefined) {
     throw new Error("No data provided for update");
   }
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      prefersEmail: data.prefers_email || undefined,
-      prefersPush: data.prefers_push || undefined,
+      prefersEmail: data.prefers_email,
+      prefersPush: data.prefers_push,
       updatedAt: new Date(),
     },
     select: {
