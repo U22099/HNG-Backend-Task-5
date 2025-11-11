@@ -30,9 +30,9 @@ export function userRoutes(app: FastifyInstance) {
       if (error.message === "User not found") {
         return reply
           .code(404)
-          .send({ success: false, error: "User not found" });
+          .send({ success: false, error: error.message });
       } else if (error.message === "Unauthorised") {
-        return reply.code(401).send({ success: false, error: "Unauthorised" });
+        return reply.code(401).send({ success: false, error: error.message });
       } else
         return reply
           .code(500)
@@ -61,9 +61,9 @@ export function userRoutes(app: FastifyInstance) {
       if (error.message === "User not found") {
         return reply
           .code(404)
-          .send({ success: false, error: "User not found" });
+          .send({ success: false, error: error.message });
       } else if (error.message === "Unauthorised") {
-        return reply.code(401).send({ success: false, error: "Unauthorised" });
+        return reply.code(401).send({ success: false, error: error.message });
       } else
         return reply
           .code(500)
@@ -96,13 +96,13 @@ export function userRoutes(app: FastifyInstance) {
       if (error.message === "User not found") {
         return reply
           .code(404)
-          .send({ success: false, error: "User not found" });
+          .send({ success: false, error: error.message });
       } else if (error.message === "Unauthorised") {
-        return reply.code(401).send({ success: false, error: "Unauthorised" });
+        return reply.code(401).send({ success: false, error: error.message });
       } else if (error.message === "No data provided for update") {
         return reply
           .code(400)
-          .send({ success: false, error: "No data provided for update" });
+          .send({ success: false, error: error.message });
       } else
         return reply
           .code(500)
@@ -135,13 +135,13 @@ export function userRoutes(app: FastifyInstance) {
       if (error.message === "User not found") {
         return reply
           .code(404)
-          .send({ success: false, error: "User not found" });
+          .send({ success: false, error: error.message });
       } else if (error.message === "Unauthorised") {
-        return reply.code(401).send({ success: false, error: "Unauthorised" });
+        return reply.code(401).send({ success: false, error: error.message });
       } else if (error.message === "No data provided for update") {
         return reply
           .code(400)
-          .send({ success: false, error: "No data provided for update" });
+          .send({ success: false, error: error.message });
       } else
         return reply
           .code(500)
@@ -174,13 +174,13 @@ export function userRoutes(app: FastifyInstance) {
       if (error.message === "User not found") {
         return reply
           .code(404)
-          .send({ success: false, error: "User not found" });
+          .send({ success: false, error: error.message });
       } else if (error.message === "Unauthorised") {
-        return reply.code(401).send({ success: false, error: "Unauthorised" });
+        return reply.code(401).send({ success: false, error: error.message });
       } else if (error.message === "Push token is required") {
         return reply
           .code(400)
-          .send({ success: false, error: "Push token is required" });
+          .send({ success: false, error: error.message });
       } else
         return reply
           .code(500)

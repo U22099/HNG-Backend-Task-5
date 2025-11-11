@@ -249,7 +249,7 @@
   "data": {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expiresIn": 3600,
+    "expires_in": 3600,
     "token_type": "Bearer",
     "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f"
   }
@@ -290,6 +290,30 @@
               <code>401 Unauthorized</code>: The provided refresh token is
               invalid, expired, or not of type <code>refresh</code>.
             </li>
+            <li>
+              <code>500 Internal Server Error</code>: An unexpected error
+              occurred on the server.
+            </li>
+          </ul>
+        </div>
+
+        <div class="endpoint">
+          <h3><span class="method post">POST</span> /v1/auth/logout</h3>
+          <p>Deauthenticates a user and logs them out.</p>
+          <code>Authorization: Bearer &lt;access_token&gt;</code> header.
+          <h4>Response (200 OK):</h4>
+          <pre><code>{
+  "success": true,
+  "message": "Logout successful"
+}</code></pre>
+          <h4>Errors:</h4>
+          <ul class="errors">
+            <li>
+              <code>400 Bad Request</code>: Missing or
+              <code>invalid Authorization header</code>.
+            </li>
+            <li><code>400 Bad Request</code>: Invalid token payload on request.user.</li>
+            <li><code>400 Bad Request</code>: User not found for provided token.</li>
             <li>
               <code>500 Internal Server Error</code>: An unexpected error
               occurred on the server.

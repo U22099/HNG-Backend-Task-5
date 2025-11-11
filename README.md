@@ -18,15 +18,15 @@ A robust and scalable user management microservice built with Node.js, Fastify, 
 
 ## Technologies Used
 
-| Technology                                    | Description                              |
-| --------------------------------------------- | ---------------------------------------- |
-| [Node.js](https://nodejs.org/)                | JavaScript runtime environment           |
-| [TypeScript](https://www.typescriptlang.org/) | Superset of JavaScript with static typing|
-| [Fastify](https://www.fastify.io/)            | High-performance web framework           |
-| [Prisma](https://www.prisma.io/)              | Next-generation Node.js and TypeScript ORM|
-| [PostgreSQL](https://www.postgresql.org/)     | Open-source relational database          |
-| [JWT](https://jwt.io/)                        | Standard for creating access tokens      |
-| [Bcrypt](https://www.npmjs.com/package/bcrypt)| Library for hashing passwords            |
+| Technology                                     | Description                                |
+| ---------------------------------------------- | ------------------------------------------ |
+| [Node.js](https://nodejs.org/)                 | JavaScript runtime environment             |
+| [TypeScript](https://www.typescriptlang.org/)  | Superset of JavaScript with static typing  |
+| [Fastify](https://www.fastify.io/)             | High-performance web framework             |
+| [Prisma](https://www.prisma.io/)               | Next-generation Node.js and TypeScript ORM |
+| [PostgreSQL](https://www.postgresql.org/)      | Open-source relational database            |
+| [JWT](https://jwt.io/)                         | Standard for creating access tokens        |
+| [Bcrypt](https://www.npmjs.com/package/bcrypt) | Library for hashing passwords              |
 
 ## Getting Started
 
@@ -39,25 +39,30 @@ A robust and scalable user management microservice built with Node.js, Fastify, 
 ### Installation
 
 1.  **Clone the repository**
+
     ```bash
     git clone https://github.com/U22099/HNG-Backend-Task-5.git
     cd HNG-Backend-Task-5
     ```
 
 2.  **Install dependencies**
+
     ```bash
     npm install
     ```
 
 3.  **Set up environment variables**
     Create a `.env` file in the root directory by copying the example file:
+
     ```bash
     cp .env.example .env
     ```
+
     Update the variables in the `.env` file with your configuration.
 
 4.  **Sync the database schema**
     This command applies your Prisma schema to the database without generating migration files.
+
     ```bash
     npx prisma db push
     ```
@@ -72,11 +77,11 @@ A robust and scalable user management microservice built with Node.js, Fastify, 
 
 All required environment variables must be defined in a `.env` file.
 
-| Variable             | Description                                          | Example                                                              |
-| -------------------- | ---------------------------------------------------- | -------------------------------------------------------------------- |
-| `DATABASE_URL`       | Connection string for your PostgreSQL database.      | `postgresql://postgres:password@localhost:5432/userdb?schema=public` |
-| `JWT_SECRET`         | Secret key for signing standard JWT access tokens.   | `super-secret-jwt-key-change-in-prod`                                |
-| `SERVICE_JWT_SECRET` | Secret key for service-to-service communication.     | `super-secret-service-key`                                           |
+| Variable             | Description                                        | Example                                                              |
+| -------------------- | -------------------------------------------------- | -------------------------------------------------------------------- |
+| `DATABASE_URL`       | Connection string for your PostgreSQL database.    | `postgresql://postgres:password@localhost:5432/userdb?schema=public` |
+| `JWT_SECRET`         | Secret key for signing standard JWT access tokens. | `super-secret-jwt-key-change-in-prod`                                |
+| `SERVICE_JWT_SECRET` | Secret key for service-to-service communication.   | `super-secret-service-key`                                           |
 
 ### Running the Application
 
@@ -102,6 +107,7 @@ All API endpoints are prefixed with `/api`.
 A simple health check endpoint to verify that the service is running.
 
 **Response**:
+
 ```json
 {
   "status": "ok"
@@ -117,6 +123,7 @@ A simple health check endpoint to verify that the service is running.
 Registers a new user in the system.
 
 **Request**:
+
 ```json
 {
   "email": "jane.doe@example.com",
@@ -128,6 +135,7 @@ Registers a new user in the system.
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "success": true,
@@ -153,6 +161,7 @@ Registers a new user in the system.
 Authenticates a user and returns JWT access and refresh tokens.
 
 **Request**:
+
 ```json
 {
   "email": "jane.doe@example.com",
@@ -161,6 +170,7 @@ Authenticates a user and returns JWT access and refresh tokens.
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -168,7 +178,7 @@ Authenticates a user and returns JWT access and refresh tokens.
   "data": {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expiresIn": 3600,
+    "expires_in": 3600,
     "token_type": "Bearer",
     "user_id": "c1f7b5a8-4c1f-4b1f-8c1f-9b1f7c1f8c1f"
   }
@@ -188,6 +198,7 @@ Authenticates a user and returns JWT access and refresh tokens.
 Generates a new access token using a valid refresh token.
 
 **Request**:
+
 ```json
 {
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -195,6 +206,7 @@ Generates a new access token using a valid refresh token.
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -213,6 +225,31 @@ Generates a new access token using a valid refresh token.
 
 ---
 
+#### POST /v1/auth/logout
+
+Deauthenticates a user and logs them out.
+
+**Header**: `Authorization: Bearer <access_token>`
+
+**Response** (200 OK):
+
+```json
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+**Errors**:
+
+- `400 Bad Request`: Missing or invalid `Authorization` header.
+- `400 Bad Request`: Invalid `token payload` on `request.user`.
+- `400 Bad Request`: User not found for provided `token`.
+- `400 Bad Request`: Logout failed.
+- `500 Internal Server Error`: An unexpected error occurred on the server.
+
+---
+
 #### User Management
 
 _Note: All user management endpoints require an `Authorization: Bearer <access_token>` header._
@@ -222,10 +259,12 @@ _Note: All user management endpoints require an `Authorization: Bearer <access_t
 Retrieves a user's public profile information.
 
 **Request**:
+
 - No request body required.
 - URL parameter `user_id` must be the ID of the user to retrieve.
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -259,6 +298,7 @@ Retrieves a user's public profile information.
 Updates a user's profile information.
 
 **Request**:
+
 ```json
 {
   "firstName": "Janet",
@@ -268,6 +308,7 @@ Updates a user's profile information.
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -294,10 +335,12 @@ Updates a user's profile information.
 Retrieves a user's contact details and notification preferences.
 
 **Request**:
+
 - No request body required.
 - URL parameter `user_id` must be the ID of the user.
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -327,6 +370,7 @@ Retrieves a user's contact details and notification preferences.
 Updates a user's notification preferences.
 
 **Request**:
+
 ```json
 {
   "prefers_email": false,
@@ -335,6 +379,7 @@ Updates a user's notification preferences.
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
@@ -362,6 +407,7 @@ Updates a user's notification preferences.
 Updates a user's push notification token for mobile devices.
 
 **Request**:
+
 ```json
 {
   "push_token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]"
@@ -369,6 +415,7 @@ Updates a user's push notification token for mobile devices.
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "success": true,
